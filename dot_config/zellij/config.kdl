@@ -1,0 +1,104 @@
+// Zellij config - minimal, neovim-friendly
+
+// Use Alt instead of Ctrl to avoid neovim conflicts
+keybinds clear-defaults=true {
+    // Locked mode - all keys pass through to terminal
+    locked {
+        bind "Alt g" { SwitchToMode "normal"; }
+    }
+
+    // Normal mode - navigation and window management
+    normal {
+        bind "Alt g" { SwitchToMode "locked"; }
+        bind "Alt q" { Quit; }
+
+        // Pane navigation (Alt + hjkl)
+        bind "Alt h" { MoveFocus "Left"; }
+        bind "Alt j" { MoveFocus "Down"; }
+        bind "Alt k" { MoveFocus "Up"; }
+        bind "Alt l" { MoveFocus "Right"; }
+
+        // Pane management
+        bind "Alt -" { NewPane "Down"; }
+        bind "Alt \\" { NewPane "Right"; }
+        bind "Alt x" { CloseFocus; }
+        bind "Alt z" { ToggleFocusFullscreen; }
+
+        // Tabs
+        bind "Alt t" { NewTab; }
+        bind "Alt w" { CloseTab; }
+        bind "Alt 1" { GoToTab 1; }
+        bind "Alt 2" { GoToTab 2; }
+        bind "Alt 3" { GoToTab 3; }
+        bind "Alt 4" { GoToTab 4; }
+        bind "Alt 5" { GoToTab 5; }
+        bind "Alt [" { GoToPreviousTab; }
+        bind "Alt ]" { GoToNextTab; }
+
+        // Resize mode
+        bind "Alt r" { SwitchToMode "resize"; }
+
+        // Scroll/search
+        bind "Alt s" { SwitchToMode "scroll"; }
+    }
+
+    resize {
+        bind "h" { Resize "Left"; }
+        bind "j" { Resize "Down"; }
+        bind "k" { Resize "Up"; }
+        bind "l" { Resize "Right"; }
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "Enter" { SwitchToMode "normal"; }
+    }
+
+    scroll {
+        bind "j" { ScrollDown; }
+        bind "k" { ScrollUp; }
+        bind "d" { HalfPageScrollDown; }
+        bind "u" { HalfPageScrollUp; }
+        bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
+        bind "Esc" { SwitchToMode "normal"; }
+        bind "q" { SwitchToMode "normal"; }
+    }
+
+    entersearch {
+        bind "Enter" { SwitchToMode "search"; }
+        bind "Esc" { SwitchToMode "scroll"; }
+    }
+
+    search {
+        bind "n" { Search "down"; }
+        bind "N" { Search "up"; }
+        bind "Esc" { SwitchToMode "normal"; }
+    }
+}
+
+// Theme - minimal
+themes {
+    default {
+        fg "#c0caf5"
+        bg "#1a1b26"
+        black "#15161e"
+        red "#f7768e"
+        green "#9ece6a"
+        yellow "#e0af68"
+        blue "#7aa2f7"
+        magenta "#bb9af7"
+        cyan "#7dcfff"
+        white "#a9b1d6"
+        orange "#ff9e64"
+    }
+}
+
+// UI options
+ui {
+    pane_frames {
+        rounded_corners true
+    }
+}
+
+// Simple layout
+default_layout "compact"
+default_mode "normal"
+pane_frames false
+simplified_ui true
