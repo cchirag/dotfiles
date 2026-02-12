@@ -4,7 +4,7 @@ gui:
   showFileTree: false          # Flat file list (faster)
   showRandomTip: false         # No tips
   showCommandLog: false        # Hide command log
-  showBottomLine: false        # Cleaner UI
+  showBottomLine: true         # Show keybindings
   nerdFontsVersion: "3"        # Nerd font icons
   theme:
     lightTheme: false
@@ -12,7 +12,7 @@ gui:
 git:
   paging:
     colorArg: always
-    pager: delta --dark --paging=never  # Better diffs (if delta installed)
+    pager: delta --dark --paging=never --line-numbers
 
   merging:
     manualCommit: false        # Auto-commit after merge
