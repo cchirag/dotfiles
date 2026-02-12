@@ -1,3 +1,10 @@
 README.md
 LICENSE
 *.md
+
+# OS-specific paths
+{{ if eq .chezmoi.os "darwin" }}
+.config/lazygit/
+{{ else }}
+Library/
+{{ end }}
