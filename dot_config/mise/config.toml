@@ -14,6 +14,7 @@ bat = "latest"
 eza = "latest"
 jq = "latest"
 gh = "latest"
+zoxide = "latest"
 
 # Languages
 node = "lts"
