@@ -45,6 +45,7 @@ keybinds clear-defaults=true {
 
         // Scroll/search
         bind "Alt s" { SwitchToMode "scroll"; }
+        bind "Alt /" { SwitchToMode "entersearch"; SearchInput 0; }
 
         // Session picker
         bind "Alt o" {
@@ -68,7 +69,12 @@ keybinds clear-defaults=true {
         bind "k" { ScrollUp; }
         bind "d" { HalfPageScrollDown; }
         bind "u" { HalfPageScrollUp; }
+        bind "g" { ScrollToTop; }
+        bind "G" { ScrollToBottom; }
         bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
+        bind "n" { Search "down"; }
+        bind "N" { Search "up"; }
+        bind "e" { EditScrollback; }
         bind "Esc" { SwitchToMode "normal"; }
         bind "q" { SwitchToMode "normal"; }
     }
@@ -79,9 +85,12 @@ keybinds clear-defaults=true {
     }
 
     search {
+        bind "j" { ScrollDown; }
+        bind "k" { ScrollUp; }
         bind "n" { Search "down"; }
         bind "N" { Search "up"; }
         bind "Esc" { SwitchToMode "normal"; }
+        bind "q" { SwitchToMode "normal"; }
     }
 }
 
@@ -113,4 +122,4 @@ ui {
 default_layout "dev"
 default_mode "normal"
 pane_frames false
-simplified_ui true
+simplified_ui false  // Show search bar and status
