@@ -101,8 +101,8 @@ ui {
     }
 }
 
-// Simple layout
-default_layout "compact"
+// Layout
+default_layout "dev"
 default_mode "normal"
 pane_frames false
 simplified_ui true

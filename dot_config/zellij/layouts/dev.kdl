@@ -1,0 +1,22 @@
+// Dev layout: 3 tabs - Terminal | Editor | AI
+layout {
+    // Tab 1: Split terminal (top/bottom)
+    tab name="term" focus=true {
+        pane split_direction="vertical" {
+            pane
+            pane
+        }
+    }
+
+    // Tab 2: Neovim
+    tab name="nvim" {
+        pane command="nvim" {
+            args "."
+        }
+    }
+
+    // Tab 3: OpenCode
+    tab name="ai" {
+        pane command="opencode"
+    }
+}
