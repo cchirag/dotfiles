@@ -7,19 +7,26 @@ gui:
   showBottomLine: true         # Show keybindings
   nerdFontsVersion: "3"        # Nerd font icons
   theme:
+    # GitHub Dark High Contrast
     activeBorderColor:
-      - "#58a6ff"              # Blue
+      - "#71b7ff"              # Accent blue
       - bold
     inactiveBorderColor:
-      - "#30363d"              # Gray border
+      - "#7a828e"              # Default border
+    optionsTextColor:
+      - "#71b7ff"              # Accent blue
     selectedLineBgColor:
-      - "#1f2428"              # Subtle selection
-    cherryPickedCommitFgColor:
-      - "#58a6ff"
+      - "#272b33"              # Overlay bg
     cherryPickedCommitBgColor:
-      - "#1f2428"
+      - "#272b33"
+    cherryPickedCommitFgColor:
+      - "#b780ff"              # Purple (done)
+    unstagedChangesColor:
+      - "#ff6a69"              # Danger red
     defaultFgColor:
-      - "#f0f6fc"              # White text
+      - "#f0f3f6"              # Primary text
+    searchingActiveBorderColor:
+      - "#e09b13"              # Warning yellow
 
 git:
   paging:
