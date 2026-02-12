@@ -65,6 +65,7 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
 elif [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
     . "$HOME/.nix-profile/etc/profile.d/nix.sh"
 fi
+export NIX_BUILD_SHELL=zsh  # Use zsh for nix develop
 
 # ---------------------
 # Mise (version manager)
