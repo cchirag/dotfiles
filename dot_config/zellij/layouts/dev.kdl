@@ -1,15 +1,15 @@
-// Dev layout: 3 tabs - Terminal | Editor | AI
+// Dev layout: 4 tabs - Terminal | Editor | AI | Git
 layout {
-    // Tab 1: Split terminal (top/bottom)
-    tab name="term" focus=true {
-        pane split_direction="vertical" {
+    // Tab 1: Split terminal (left/right)
+    tab name="term" {
+        pane split_direction="horizontal" {
             pane
             pane
         }
     }
 
-    // Tab 2: Neovim
-    tab name="nvim" {
+    // Tab 2: Neovim (default focus)
+    tab name="nvim" focus=true {
         pane command="nvim" {
             args "."
         }
@@ -18,5 +18,10 @@ layout {
     // Tab 3: OpenCode
     tab name="ai" {
         pane command="opencode"
+    }
+
+    // Tab 4: Lazygit
+    tab name="git" {
+        pane command="lazygit"
     }
 }
