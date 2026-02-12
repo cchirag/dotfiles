@@ -55,11 +55,7 @@ fi
 # ---------------------
 # Prompt (minimal)
 # ---------------------
-autoload -Uz vcs_info
-precmd() { vcs_info }
-zstyle ':vcs_info:git:*' formats ' %F{8}%b%f'
-setopt PROMPT_SUBST
-PROMPT='%F{7}%~%f${vcs_info_msg_0_} %F{8}$%f '
+PROMPT='%F{7}%1~%f %F{8}$%f '
 
 # ---------------------
 # Mise (version manager)
