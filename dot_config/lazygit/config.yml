@@ -7,7 +7,19 @@ gui:
   showBottomLine: true         # Show keybindings
   nerdFontsVersion: "3"        # Nerd font icons
   theme:
-    lightTheme: false
+    activeBorderColor:
+      - "#58a6ff"              # Blue
+      - bold
+    inactiveBorderColor:
+      - "#30363d"              # Gray border
+    selectedLineBgColor:
+      - "#1f2428"              # Subtle selection
+    cherryPickedCommitFgColor:
+      - "#58a6ff"
+    cherryPickedCommitBgColor:
+      - "#1f2428"
+    defaultFgColor:
+      - "#f0f6fc"              # White text
 
 git:
   paging:
