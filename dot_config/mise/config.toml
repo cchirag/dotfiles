@@ -9,6 +9,11 @@ fd = "latest"
 fzf = "latest"
 lazygit = "latest"
 zellij = "latest"
+delta = "latest"
+bat = "latest"
+eza = "latest"
+jq = "latest"
+gh = "latest"
 
 # Languages
 node = "lts"

@@ -1,23 +1,78 @@
 #!/bin/bash
-# Install everything via mise - minimal system dependencies
+# Install development environment
 
 set -e
 
 echo "🚀 Setting up development environment..."
 
-# Install only essential system dependencies (git, curl)
 {{ if eq .chezmoi.os "darwin" }}
-# macOS - git and curl usually pre-installed via Xcode CLI tools
+# macOS
 if ! command -v git &> /dev/null; then
     xcode-select --install 2>/dev/null || true
 fi
+
+# Homebrew (for GUI apps)
+if ! command -v brew &> /dev/null; then
+    echo "📦 Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# Ghostty
+if ! [ -d "/Applications/Ghostty.app" ]; then
+    echo "📦 Installing Ghostty..."
+    brew install --cask ghostty
+fi
+
+# Nerd Fonts
+echo "📦 Installing Nerd Fonts..."
+brew install --cask font-jetbrains-mono-nerd-font
+brew install --cask font-fira-code-nerd-font
+
 {{ else if eq .chezmoi.os "linux" }}
+# Linux - install system dependencies
 if command -v apt &> /dev/null; then
-    sudo apt update && sudo apt install -y git curl unzip
+    sudo apt update && sudo apt install -y git curl unzip build-essential
+    # Ghostty on Debian/Ubuntu
+    if ! command -v ghostty &> /dev/null; then
+        echo "📦 Installing Ghostty..."
+        curl -fsSL https://packagecloud.io/install/repositories/ghostty/release/script.deb.sh | sudo bash
+        sudo apt install -y ghostty || echo "⚠️ Ghostty install failed - install manually"
+    fi
 elif command -v pacman &> /dev/null; then
-    sudo pacman -Syu --noconfirm git curl unzip
+    sudo pacman -Syu --noconfirm git curl unzip base-devel
+    # Ghostty on Arch
+    if ! command -v ghostty &> /dev/null; then
+        echo "📦 Installing Ghostty..."
+        sudo pacman -S --noconfirm ghostty || yay -S ghostty || echo "⚠️ Install ghostty via AUR"
+    fi
 elif command -v dnf &> /dev/null; then
     sudo dnf install -y git curl unzip
+    echo "ℹ️ Ghostty: Install from https://ghostty.org"
+fi
+
+# Nerd Fonts on Linux
+echo "📦 Installing Nerd Fonts..."
+FONT_DIR="$HOME/.local/share/fonts"
+mkdir -p "$FONT_DIR"
+if [ ! -f "$FONT_DIR/JetBrainsMonoNerdFont-Regular.ttf" ]; then
+    curl -fLo /tmp/JetBrainsMono.zip https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+    unzip -o /tmp/JetBrainsMono.zip -d "$FONT_DIR"
+    fc-cache -fv
+fi
+
+{{ else if eq .chezmoi.os "windows" }}
+# Windows (via winget/scoop)
+echo "📦 Installing packages via winget..."
+winget install --id Git.Git -e --source winget
+winget install --id ghostty.ghostty -e --source winget || echo "⚠️ Install Ghostty manually"
+
+# Nerd Fonts on Windows (via scoop)
+if command -v scoop &> /dev/null; then
+    scoop bucket add nerd-fonts
+    scoop install JetBrainsMono-NF
+else
+    echo "ℹ️ Install Nerd Fonts manually from https://www.nerdfonts.com"
 fi
 {{ end }}
 
@@ -27,13 +82,11 @@ if ! command -v mise &> /dev/null; then
     curl https://mise.run | sh
 fi
 
-# Add mise to PATH for this script
+# Add mise to PATH
 export PATH="$HOME/.local/bin:$PATH"
-
-# Activate mise
 eval "$(~/.local/bin/mise activate bash)"
 
-# Install all tools via mise
+# Install tools via mise
 echo "📦 Installing tools via mise..."
 
 # Core tools
@@ -43,6 +96,11 @@ mise use --global fd@latest
 mise use --global fzf@latest
 mise use --global lazygit@latest
 mise use --global zellij@latest
+mise use --global delta@latest
+mise use --global bat@latest
+mise use --global eza@latest
+mise use --global jq@latest
+mise use --global gh@latest
 
 # Language runtimes
 mise use --global node@lts
@@ -50,6 +108,11 @@ mise use --global python@3.12
 mise use --global go@latest
 mise use --global rust@latest
 
-echo "✅ All tools installed via mise!"
-echo ""
-echo "⚠️  Restart your shell or run: source ~/.zshrc"
+# Install opencode
+echo "📦 Installing opencode..."
+if ! command -v opencode &> /dev/null; then
+    go install github.com/opencode-ai/opencode@latest || npm install -g opencode || echo "⚠️ Install opencode manually"
+fi
+
+echo "✅ All tools installed!"
+echo "⚠️ Restart your shell or run: source ~/.zshrc"

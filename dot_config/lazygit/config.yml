@@ -1,0 +1,41 @@
+# Minimal lazygit config - focused on conflicts & diffs
+
+gui:
+  showFileTree: false          # Flat file list (faster)
+  showRandomTip: false         # No tips
+  showCommandLog: false        # Hide command log
+  showBottomLine: false        # Cleaner UI
+  nerdFontsVersion: "3"        # Nerd font icons
+  theme:
+    lightTheme: false
+
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never  # Better diffs (if delta installed)
+
+  merging:
+    manualCommit: false        # Auto-commit after merge
+    args: ""
+
+  log:
+    showGraph: when-maximised  # Show graph only when panel maximised
+    showWholeGraph: false
+
+os:
+  editPreset: "nvim"           # Use nvim for editing
+
+keybinding:
+  universal:
+    quit: "q"
+    quit-alt1: "<c-c>"
+    return: "<esc>"
+    prevItem: "k"
+    nextItem: "j"
+    prevBlock: "h"
+    nextBlock: "l"
+    scrollUpMain: "<c-u>"
+    scrollDownMain: "<c-d>"
+
+confirmOnQuit: false
+quitOnTopLevelReturn: true     # q quits from top level

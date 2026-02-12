@@ -1,0 +1,35 @@
+# Ghostty config
+
+# Fix Alt key on macOS (makes Option act as Alt)
+macos-option-as-alt = true
+
+# Unbind default macOS alt+arrow bindings that conflict with zellij/nvim
+keybind = alt+left=unbind
+keybind = alt+right=unbind
+
+# Font
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+
+# Theme (matches GitHub Dark High Contrast)
+background = 0d1117
+foreground = f0f6fc
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Window
+window-padding-x = 10
+window-padding-y = 10
+window-decoration = true
+macos-titlebar-style = hidden
+
+# Shell integration
+shell-integration = zsh
+
+# Clipboard
+copy-on-select = clipboard
+
+# Scrollback
+scrollback-limit = 10000
