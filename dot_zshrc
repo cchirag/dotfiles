@@ -1,0 +1,98 @@
+# Minimal zsh config - no frameworks
+
+# ---------------------
+# History
+# ---------------------
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY          # Share history between sessions
+setopt HIST_IGNORE_DUPS       # Don't save duplicates
+setopt HIST_IGNORE_SPACE      # Don't save commands starting with space
+setopt HIST_REDUCE_BLANKS     # Remove extra blanks
+setopt INC_APPEND_HISTORY     # Add commands immediately
+
+# ---------------------
+# Completion
+# ---------------------
+autoload -Uz compinit
+compinit
+
+zstyle ':completion:*' menu select                    # Menu selection
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'  # Case insensitive
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # Colored completions
+setopt COMPLETE_IN_WORD       # Complete from cursor
+setopt AUTO_MENU              # Show menu on second tab
+
+# ---------------------
+# Key bindings
+# ---------------------
+bindkey -e                              # Emacs mode (Ctrl+A, Ctrl+E, etc.)
+bindkey '^[[A' history-search-backward  # Up arrow - search history
+bindkey '^[[B' history-search-forward   # Down arrow - search history
+bindkey '^R' history-incremental-search-backward  # Ctrl+R search
+
+# ---------------------
+# Autosuggestions (fish-like)
+# ---------------------
+ZSH_AUTOSUGGEST_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/zsh-autosuggestions"
+if [[ ! -d "$ZSH_AUTOSUGGEST_DIR" ]]; then
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$ZSH_AUTOSUGGEST_DIR" 2>/dev/null
+fi
+[[ -f "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh" ]] && source "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+bindkey '^F' autosuggest-accept  # Ctrl+F to accept suggestion
+
+# ---------------------
+# Prompt (simple)
+# ---------------------
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats ' %F{yellow}%b%f'
+setopt PROMPT_SUBST
+PROMPT='%F{blue}%~%f${vcs_info_msg_0_} %F{green}❯%f '
+
+# ---------------------
+# Mise (version manager)
+# ---------------------
+export PATH="$HOME/.local/bin:$PATH"
+if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
+# ---------------------
+# Environment
+# ---------------------
+export EDITOR="nvim"
+export VISUAL="nvim"
+export LANG="en_US.UTF-8"
+
+# ---------------------
+# Aliases
+# ---------------------
+alias v="nvim"
+alias vim="nvim"
+alias lg="lazygit"
+alias zj="zellij"
+
+alias ls="ls --color=auto"
+alias ll="ls -la"
+alias la="ls -A"
+
+alias g="git"
+alias gs="git status -sb"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"
+alias gl="git log --oneline -20"
+alias gd="git diff"
+
+alias ..="cd .."
+alias ...="cd ../.."
+
+# ---------------------
+# FZF (if available)
+# ---------------------
+if command -v fzf &> /dev/null; then
+    source <(fzf --zsh) 2>/dev/null || true
+fi
