@@ -10,6 +10,7 @@ keybinds clear-defaults=true {
     // Normal mode - navigation and window management
     normal {
         bind "Alt g" { SwitchToMode "locked"; }
+        bind "Alt d" { Detach; }
         bind "Alt q" { Quit; }
 
         // Pane navigation (Alt + hjkl)
