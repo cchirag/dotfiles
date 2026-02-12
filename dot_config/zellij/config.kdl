@@ -122,4 +122,12 @@ ui {
 default_layout "dev"
 default_mode "normal"
 pane_frames false
-simplified_ui false  // Show search bar and status
+
+// UI - show status bar
+simplified_ui false
+
+// Plugins
+plugins {
+    tab-bar location="zellij:tab-bar"
+    status-bar location="zellij:status-bar"
+}
