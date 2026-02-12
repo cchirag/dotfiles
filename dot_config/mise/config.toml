@@ -1,0 +1,20 @@
+# Global mise config
+# All tools managed by mise
+
+[tools]
+# Core tools
+neovim = "latest"
+ripgrep = "latest"
+fd = "latest"
+fzf = "latest"
+lazygit = "latest"
+zellij = "latest"
+
+# Languages
+node = "lts"
+python = "3.12"
+go = "latest"
+rust = "latest"
+
+[settings]
+experimental = true

@@ -8,81 +8,69 @@ My cross-platform development environment managed with [chezmoi](https://chezmoi
 |------|---------|
 | **Neovim** | Editor with LazyVim base |
 | **Zellij** | Terminal multiplexer |
+| **mise** | Version manager (Node, Python, Go, Rust) |
 | **Git** | Version control config |
 
 ## Quick Start (New Machine)
 
-### 1. Install chezmoi and apply dotfiles
-
-**One-liner (recommended):**
+**One-liner:**
 
 ```bash
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply cchirag
 ```
 
-**Or step by step:**
+This will automatically:
+1. Install system packages (neovim, zellij, ripgrep, fd, fzf, git)
+2. Install mise and language runtimes (Node LTS, Python 3.12, Go, Rust)
+3. Set up Neovim with all plugins
+4. Apply all configs
 
-```bash
-# Install chezmoi
-sh -c "$(curl -fsLS get.chezmoi.io)"
-
-# Init with your dotfiles repo
-chezmoi init https://github.com/cchirag/dotfiles.git
-
-# Preview changes
-chezmoi diff
-
-# Apply
-chezmoi apply
-```
-
-### 2. That's it!
-
-The setup scripts will automatically:
-- Install required packages (neovim, zellij, ripgrep, fd, etc.)
-- Set up Neovim with all plugins
-- Configure git with your name/email
-
-## Manual Installation (Without chezmoi)
-
-If you prefer not to use chezmoi:
-
-```bash
-# Clone
-git clone https://github.com/cchirag/dotfiles.git ~/dotfiles
-
-# Copy configs
-cp -r ~/dotfiles/dot_config/nvim ~/.config/
-cp -r ~/dotfiles/dot_config/zellij ~/.config/
-
-# Install packages manually (macOS)
-brew install neovim zellij ripgrep fd fzf git lazygit node go python3 rust
-```
+**Restart your shell after installation to activate mise.**
 
 ## Structure
 
 ```
 ~/.local/share/chezmoi/
-├── .chezmoi.toml.tmpl           # Machine-specific variables
-├── run_once_01-install-packages.sh.tmpl  # Package installation
-├── run_once_02-setup-neovim.sh  # Neovim setup
-├── dot_gitconfig.tmpl           # Git config (templated)
-├── dot_config/
-│   ├── nvim/                    # Neovim config
-│   │   ├── init.lua
-│   │   └── lua/
-│   │       ├── config/
-│   │       │   ├── lazy.lua     # Plugin manager
-│   │       │   ├── keymaps.lua  # Key mappings
-│   │       │   └── options.lua  # Editor options
-│   │       └── plugins/
-│   │           ├── colorscheme.lua
-│   │           ├── editor.lua
-│   │           ├── language-support.lua
-│   │           └── ui-overrides.lua
-│   └── zellij/
-│       └── config.kdl           # Zellij config
-└── README.md
+├── .chezmoi.toml.tmpl                    # User variables
+├── run_once_01-install-packages.sh.tmpl  # System + mise install
+├── run_once_02-setup-neovim.sh           # Neovim plugins
+├── dot_zshrc.tmpl                        # Shell config
+├── dot_gitconfig.tmpl                    # Git config
+└── dot_config/
+    ├── nvim/                             # Neovim
+    │   ├── init.lua
+    │   └── lua/
+    │       ├── config/
+    │       │   ├── lazy.lua
+    │       │   ├── keymaps.lua
+    │       │   └── options.lua
+    │       └── plugins/
+    │           ├── colorscheme.lua
+    │           ├── editor.lua
+    │           ├── language-support.lua
+    │           └── ui-overrides.lua
+    ├── zellij/
+    │   └── config.kdl
+    └── mise/
+        └── config.toml                   # Global tool versions
+```
+
+## Managing Versions with mise
+
+```bash
+# List installed tools
+mise list
+
+# Install a specific version
+mise use node@20
+mise use python@3.11
+
+# Per-project versions (creates .mise.toml in current dir)
+cd my-project
+mise use node@18
+
+# Upgrade all tools
+mise upgrade
 ```
 
 ## Keybindings
@@ -102,6 +90,9 @@ brew install neovim zellij ripgrep fd fzf git lazygit node go python3 rust
 | `K` | Hover docs |
 | `<leader>ca` | Code action |
 | `<leader>rn` | Rename |
+| `sa` | Surround add |
+| `sd` | Surround delete |
+| `sr` | Surround replace |
 
 ### Zellij
 
@@ -109,110 +100,75 @@ All keybindings use `Alt` to avoid conflicts with Neovim:
 
 | Key | Action |
 |-----|--------|
-| `Alt g` | Toggle locked mode (pass all keys through) |
 | `Alt h/j/k/l` | Navigate panes |
 | `Alt -` | Split horizontal |
 | `Alt \` | Split vertical |
+| `Alt z` | Zoom pane |
 | `Alt x` | Close pane |
-| `Alt z` | Zoom/fullscreen pane |
 | `Alt t` | New tab |
 | `Alt w` | Close tab |
-| `Alt 1-5` | Go to tab 1-5 |
-| `Alt [/]` | Previous/next tab |
-| `Alt r` | Enter resize mode |
-| `Alt s` | Enter scroll mode |
-| `Alt q` | Quit zellij |
+| `Alt 1-5` | Go to tab |
+| `Alt [/]` | Prev/next tab |
+| `Alt r` | Resize mode |
+| `Alt s` | Scroll mode |
+| `Alt g` | Lock mode (pass all keys) |
+| `Alt q` | Quit |
 
-### Zellij + Neovim Workflow
+### Workflow: Neovim + Zellij + OpenCode
 
 ```bash
 # Start zellij
-zellij
+zj
 
-# Split for code + terminal
-Alt \      # Split right for terminal
-Alt h      # Back to editor
-
-# Or split for code + AI assistant
-Alt \      # Split right
-opencode   # Run opencode in the pane
-Alt h      # Back to editor
-Alt l      # Check opencode output
-Alt z      # Zoom opencode when needed
+# Split for code + AI
+Alt \           # Split right
+opencode        # Run in right pane
+Alt h           # Back to editor
+Alt l           # Check AI output
+Alt z           # Zoom AI pane when needed
 ```
 
 ## Updating
 
 ```bash
-# Pull latest changes
 chezmoi update
-
-# Or manually
-chezmoi git pull
-chezmoi apply
 ```
 
-## Adding New Configs
+## Adding Configs
 
 ```bash
-# Add a new config file
+# Add new config
 chezmoi add ~/.config/someapp/config.toml
 
-# Edit managed files
+# Edit and apply
 chezmoi edit ~/.config/nvim/init.lua
-
-# Apply changes
 chezmoi apply
 
-# Push to repo
+# Push changes
 chezmoi cd
-git add -A
-git commit -m "Update configs"
-git push
+git add -A && git commit -m "Update" && git push
 ```
 
-## Customization
+## Aliases
 
-### Machine-Specific Settings
-
-Edit `~/.config/chezmoi/chezmoi.toml` for machine-specific variables:
-
-```toml
-[data]
-    name = "Your Name"
-    email = "your@email.com"
-```
-
-### Adding Packages
-
-Edit `run_once_01-install-packages.sh.tmpl` to add more packages.
-
-## Languages Supported (Neovim)
-
-- Go
-- TypeScript / JavaScript
-- Python
-- Rust
-- HTML / CSS
-
-To add more, edit `lua/plugins/language-support.lua` and `lua/config/lazy.lua`.
+| Alias | Command |
+|-------|---------|
+| `v` | `nvim` |
+| `vim` | `nvim` |
+| `lg` | `lazygit` |
+| `zj` | `zellij` |
 
 ## Troubleshooting
 
-### Neovim plugins not installing
-
 ```bash
-nvim --headless "+Lazy! sync" +qa
-```
-
-### Zellij keybindings not working
-
-Make sure you're not in "locked" mode. Press `Alt g` to toggle.
-
-### chezmoi not finding templates
-
-```bash
+# Check chezmoi status
 chezmoi doctor
+
+# Reinstall nvim plugins
+nvim --headless "+Lazy! sync" +qa
+
+# Reinstall mise tools
+mise install
 ```
 
 ## License
