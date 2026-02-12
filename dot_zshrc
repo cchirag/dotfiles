@@ -44,13 +44,13 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 bindkey '^F' autosuggest-accept  # Ctrl+F to accept suggestion
 
 # ---------------------
-# Prompt (simple)
+# Prompt
 # ---------------------
 autoload -Uz vcs_info
 precmd() { vcs_info }
-zstyle ':vcs_info:git:*' formats ' %F{yellow}%b%f'
+zstyle ':vcs_info:git:*' formats ' %F{yellow}(%b)%f'
 setopt PROMPT_SUBST
-PROMPT='%F{blue}%~%f${vcs_info_msg_0_} %F{green}❯%f '
+PROMPT='%F{cyan}%n%f %F{blue}%~%f${vcs_info_msg_0_} %F{green}❯%f '
 
 # ---------------------
 # Mise (version manager)
