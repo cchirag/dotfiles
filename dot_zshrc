@@ -116,6 +116,9 @@ alias gd="git diff"
 alias ..="cd .."
 alias ...="cd ../.."
 
+# Nix
+alias nd="nix develop --command zsh"
+
 # ---------------------
 # FZF (if available)
 # ---------------------
