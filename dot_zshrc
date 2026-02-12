@@ -44,6 +44,15 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 bindkey '^F' autosuggest-accept  # Ctrl+F to accept suggestion
 
 # ---------------------
+# Syntax highlighting
+# ---------------------
+ZSH_SYNTAX_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/zsh-syntax-highlighting"
+if [[ ! -d "$ZSH_SYNTAX_DIR" ]]; then
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_SYNTAX_DIR" 2>/dev/null
+fi
+[[ -f "$ZSH_SYNTAX_DIR/zsh-syntax-highlighting.zsh" ]] && source "$ZSH_SYNTAX_DIR/zsh-syntax-highlighting.zsh"
+
+# ---------------------
 # Prompt
 # ---------------------
 autoload -Uz vcs_info
@@ -78,9 +87,17 @@ alias vim="nvim"
 alias lg="lazygit"
 alias zj="zellij"
 
-alias ls="ls --color=auto"
-alias ll="ls -la"
-alias la="ls -A"
+# eza (modern ls)
+if command -v eza &> /dev/null; then
+    alias ls="eza --icons"
+    alias ll="eza -la --icons --git"
+    alias la="eza -a --icons"
+    alias lt="eza --tree --level=2 --icons"
+else
+    alias ls="ls --color=auto"
+    alias ll="ls -la"
+    alias la="ls -A"
+fi
 
 alias g="git"
 alias gs="git status -sb"
