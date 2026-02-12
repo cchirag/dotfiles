@@ -1,76 +1,105 @@
 # Dotfiles
 
-My cross-platform development environment managed with [chezmoi](https://chezmoi.io).
-
-## What's Included
-
-| Tool | Purpose |
-|------|---------|
-| **Neovim** | Editor with LazyVim base |
-| **Zellij** | Terminal multiplexer |
-| **mise** | Version manager (Node, Python, Go, Rust) |
-| **Git** | Version control config |
+Cross-platform development environment managed with [chezmoi](https://chezmoi.io).
 
 ## Quick Start (New Machine)
-
-**One-liner:**
 
 ```bash
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply cchirag
 ```
 
-This will automatically:
-1. Install system packages (neovim, zellij, ripgrep, fd, fzf, git)
-2. Install mise and language runtimes (Node LTS, Python 3.12, Go, Rust)
-3. Set up Neovim with all plugins
-4. Apply all configs
+Restart your shell after installation.
 
-**Restart your shell after installation to activate mise.**
+## What's Included
+
+| Tool | Purpose |
+|------|---------|
+| **Neovim** | Editor (LazyVim base) |
+| **Zellij** | Terminal multiplexer |
+| **mise** | Version manager (Node, Python, Go, Rust, etc.) |
+| **Zsh** | Shell with autosuggestions |
+
+## Editing Workflow
+
+Chezmoi **copies** files (not symlinks). Here's how to edit:
+
+### Option 1: Edit via chezmoi (recommended)
+
+```bash
+# Edit source file directly (opens in $EDITOR)
+chezmoi edit ~/.config/nvim/init.lua
+
+# Changes are auto-applied on save
+```
+
+### Option 2: Edit target, then sync back
+
+```bash
+# Edit the actual config file
+nvim ~/.config/nvim/init.lua
+
+# Sync changes back to chezmoi source
+chezmoi re-add ~/.config/nvim/init.lua
+```
+
+### Option 3: Edit source repo directly
+
+```bash
+# Go to source directory
+chezmoi cd
+# Or: cd ~/.local/share/chezmoi
+
+# Edit files
+nvim dot_config/nvim/init.lua
+
+# Apply changes to system
+chezmoi apply
+```
+
+### Pushing changes
+
+```bash
+chezmoi cd
+git add -A
+git commit -m "Update nvim config"
+git push
+```
+
+### Pulling changes (on another machine)
+
+```bash
+chezmoi update
+```
+
+### See what would change
+
+```bash
+chezmoi diff
+```
 
 ## Structure
 
 ```
 ~/.local/share/chezmoi/
-├── .chezmoi.toml.tmpl                    # User variables
-├── run_once_01-install-packages.sh.tmpl  # System + mise install
-├── run_once_02-setup-neovim.sh           # Neovim plugins
-├── dot_zshrc.tmpl                        # Shell config
-├── dot_gitconfig.tmpl                    # Git config
+├── run_once_01-install-packages.sh.tmpl  # Install tools via mise
+├── run_once_02-setup-neovim.sh           # Setup nvim plugins
+├── dot_zshrc                             # → ~/.zshrc
+├── dot_gitconfig.tmpl                    # → ~/.gitconfig
 └── dot_config/
-    ├── nvim/                             # Neovim
-    │   ├── init.lua
-    │   └── lua/
-    │       ├── config/
-    │       │   ├── lazy.lua
-    │       │   ├── keymaps.lua
-    │       │   └── options.lua
-    │       └── plugins/
-    │           ├── colorscheme.lua
-    │           ├── editor.lua
-    │           ├── language-support.lua
-    │           └── ui-overrides.lua
-    ├── zellij/
-    │   └── config.kdl
-    └── mise/
-        └── config.toml                   # Global tool versions
+    ├── nvim/                             # → ~/.config/nvim/
+    ├── zellij/                           # → ~/.config/zellij/
+    └── mise/                             # → ~/.config/mise/
 ```
 
-## Managing Versions with mise
+**Naming:** `dot_` → `.`, `_` → `/`, `.tmpl` → templated
+
+## Managing Tools with mise
 
 ```bash
-# List installed tools
-mise list
-
-# Install a specific version
-mise use node@20
-mise use python@3.11
-
-# Per-project versions (creates .mise.toml in current dir)
-cd my-project
-mise use node@18
-
-# Upgrade all tools
-mise upgrade
+mise list                 # Show installed
+mise use node@20          # Install/switch version
+mise use --global go@1.22 # Set global default
+mise upgrade              # Upgrade all
 ```
 
 ## Keybindings
@@ -79,24 +108,17 @@ mise upgrade
 
 | Key | Action |
 |-----|--------|
-| `<Space>` | Leader key |
-| `<leader>e` | File explorer (Oil) |
-| `-` | Parent directory |
+| `Space` | Leader |
+| `<leader>e` / `-` | File explorer |
 | `<leader>ff` | Find files |
-| `<leader>fg` | Live grep |
-| `<leader>fb` | Buffers |
+| `<leader>fg` | Grep |
 | `gd` | Go to definition |
 | `gr` | References |
 | `K` | Hover docs |
 | `<leader>ca` | Code action |
-| `<leader>rn` | Rename |
-| `sa` | Surround add |
-| `sd` | Surround delete |
-| `sr` | Surround replace |
+| `sa/sd/sr` | Surround add/delete/replace |
 
-### Zellij
-
-All keybindings use `Alt` to avoid conflicts with Neovim:
+### Zellij (Alt-based, no nvim conflicts)
 
 | Key | Action |
 |-----|--------|
@@ -106,69 +128,47 @@ All keybindings use `Alt` to avoid conflicts with Neovim:
 | `Alt z` | Zoom pane |
 | `Alt x` | Close pane |
 | `Alt t` | New tab |
-| `Alt w` | Close tab |
 | `Alt 1-5` | Go to tab |
-| `Alt [/]` | Prev/next tab |
-| `Alt r` | Resize mode |
-| `Alt s` | Scroll mode |
-| `Alt g` | Lock mode (pass all keys) |
+| `Alt g` | Lock mode |
 | `Alt q` | Quit |
 
-### Workflow: Neovim + Zellij + OpenCode
+### Zsh
 
-```bash
-# Start zellij
-zj
-
-# Split for code + AI
-Alt \           # Split right
-opencode        # Run in right pane
-Alt h           # Back to editor
-Alt l           # Check AI output
-Alt z           # Zoom AI pane when needed
-```
-
-## Updating
-
-```bash
-chezmoi update
-```
-
-## Adding Configs
-
-```bash
-# Add new config
-chezmoi add ~/.config/someapp/config.toml
-
-# Edit and apply
-chezmoi edit ~/.config/nvim/init.lua
-chezmoi apply
-
-# Push changes
-chezmoi cd
-git add -A && git commit -m "Update" && git push
-```
+| Key | Action |
+|-----|--------|
+| `↑/↓` | Search history (matching prefix) |
+| `Ctrl+R` | Interactive history search |
+| `Ctrl+F` | Accept autosuggestion |
+| `Tab` | Completion menu |
 
 ## Aliases
 
-| Alias | Command |
-|-------|---------|
-| `v` | `nvim` |
-| `vim` | `nvim` |
-| `lg` | `lazygit` |
-| `zj` | `zellij` |
+```
+v, vim  → nvim
+lg      → lazygit
+zj      → zellij
+g       → git
+gs      → git status -sb
+```
+
+## Adding New Configs
+
+```bash
+# Add a file to chezmoi
+chezmoi add ~/.config/someapp/config.toml
+
+# Add entire directory
+chezmoi add ~/.config/someapp
+```
 
 ## Troubleshooting
 
 ```bash
-# Check chezmoi status
-chezmoi doctor
-
-# Reinstall nvim plugins
-nvim --headless "+Lazy! sync" +qa
-
-# Reinstall mise tools
-mise install
+chezmoi doctor           # Check status
+chezmoi diff             # See pending changes
+chezmoi apply -v         # Apply with verbose output
+mise install             # Reinstall tools
+nvim --headless "+Lazy! sync" +qa  # Reinstall nvim plugins
 ```
 
 ## License
