@@ -67,6 +67,9 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export LANG="en_US.UTF-8"
 
+# Disable cursor blink
+echo -ne '\e[2 q'  # Steady block cursor
+
 # ---------------------
 # Aliases
 # ---------------------
