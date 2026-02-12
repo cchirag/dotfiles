@@ -1,5 +1,13 @@
 // Dev layout: 4 tabs - Terminal | Editor | AI | Git
 layout {
+    // Status bar at bottom
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
+        children
+    }
+
     // Tab 1: Split terminal (left/right)
     tab name="term" {
         pane split_direction="horizontal" {
