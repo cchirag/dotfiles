@@ -27,3 +27,6 @@ rust = "latest"
 
 [settings]
 experimental = true
+
+[settings.aqua]
+github_attestations = false
