@@ -128,6 +128,10 @@ alias ...="cd ../.."
 # Nix
 alias nd="nix develop --command zsh"
 
+# Ollama
+alias ols="ollama serve > /dev/null 2>&1 &; echo 'Ollama server started'"
+alias olq="pkill ollama && echo 'Ollama server stopped' || echo 'Ollama not running'"
+
 # ---------------------
 # FZF (if available)
 # ---------------------

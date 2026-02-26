@@ -3,6 +3,7 @@
 
 [tools]
 # Core tools
+ollama = "latest"
 neovim = "latest"
 ripgrep = "latest"
 fd = "latest"
@@ -22,6 +23,7 @@ node = "lts"
 python = "3.12"
 go = "latest"
 rust = "latest"
+
 
 [settings]
 experimental = true

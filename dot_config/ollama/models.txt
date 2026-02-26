@@ -1,0 +1,4 @@
+# Ollama models to bootstrap on fresh install
+# One model per line, comments start with #
+qwen3:0.6b
+qwen3:8b
