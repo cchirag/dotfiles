@@ -3,6 +3,7 @@
 
 [tools]
 # Core tools
+opencode = "latest"
 ollama = "latest"
 neovim = "latest"
 ripgrep = "latest"

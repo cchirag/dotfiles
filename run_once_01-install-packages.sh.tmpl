@@ -109,11 +109,5 @@ mise use --global python@3.12
 mise use --global go@latest
 mise use --global rust@latest
 
-# Install opencode
-echo "📦 Installing opencode..."
-if ! command -v opencode &> /dev/null; then
-    go install github.com/opencode-ai/opencode@latest || npm install -g opencode || echo "⚠️ Install opencode manually"
-fi
-
 echo "✅ All tools installed!"
 echo "⚠️ Restart your shell or run: source ~/.zshrc"
