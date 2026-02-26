@@ -25,6 +25,15 @@ setopt COMPLETE_IN_WORD       # Complete from cursor
 setopt AUTO_MENU              # Show menu on second tab
 
 # ---------------------
+# Carapace (context-aware completions)
+# ---------------------
+if command -v carapace &> /dev/null; then
+    export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+    zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+    source <(carapace _carapace zsh)
+fi
+
+# ---------------------
 # Key bindings
 # ---------------------
 bindkey -e                              # Emacs mode (Ctrl+A, Ctrl+E, etc.)
@@ -133,14 +142,3 @@ if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh)"  # Use 'z' for smart jump, keeps 'cd' as builtin
 fi
 
-# ---------------------
-# Inshellisense (IDE-style autocomplete)
-# ---------------------
-if command -v mise &> /dev/null; then
-    if ! command -v is &> /dev/null; then
-        mise use -g npm:@microsoft/inshellisense 2>/dev/null
-    fi
-    if command -v is &> /dev/null; then
-        eval "$(is init zsh)"
-    fi
-fi

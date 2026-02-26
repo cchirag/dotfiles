@@ -15,6 +15,7 @@ eza = "latest"
 jq = "latest"
 gh = "latest"
 zoxide = "latest"
+carapace = "latest"
 
 # Languages
 node = "lts"
