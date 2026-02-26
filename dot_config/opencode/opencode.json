@@ -2,11 +2,6 @@
   "$schema": "https://opencode.ai/config.json",
   "model": "ollama/qwen3:8b",
   "instructions": ["~/.config/opencode/instructions.md"],
-  "agent": {
-    "coder": {
-      "model": "ollama/qwen3:8b"
-    }
-  },
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
