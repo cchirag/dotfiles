@@ -132,3 +132,15 @@ fi
 if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh)"  # Use 'z' for smart jump, keeps 'cd' as builtin
 fi
+
+# ---------------------
+# Inshellisense (IDE-style autocomplete)
+# ---------------------
+if command -v mise &> /dev/null; then
+    if ! command -v is &> /dev/null; then
+        mise use -g npm:@microsoft/inshellisense 2>/dev/null
+    fi
+    if command -v is &> /dev/null; then
+        eval "$(is init zsh)"
+    fi
+fi
