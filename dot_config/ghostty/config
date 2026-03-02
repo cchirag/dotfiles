@@ -1,4 +1,5 @@
 # Ghostty config
 theme = Kanagawa Dragon
+macos-option-as-alt = true
 font-size = 14
 macos-titlebar-style = hidden

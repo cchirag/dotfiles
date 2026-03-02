@@ -1,5 +1,8 @@
 // Zellij config - minimal, neovim-friendly
 
+// Disable kitty keyboard protocol to avoid terminal state issues on exit
+support_kitty_keyboard_protocol false
+
 // Use Alt instead of Ctrl to avoid neovim conflicts
 keybinds clear-defaults=true {
     // Locked mode - all keys pass through to terminal
