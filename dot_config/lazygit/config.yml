@@ -7,26 +7,26 @@ gui:
   showBottomLine: true         # Show keybindings
   nerdFontsVersion: "3"        # Nerd font icons
   theme:
-    # GitHub Dark High Contrast
+    # Kanagawa Dragon
     activeBorderColor:
-      - "#71b7ff"              # Accent blue
+      - "#8ba4b0"              # Dragon blue
       - bold
     inactiveBorderColor:
-      - "#7a828e"              # Default border
+      - "#625e5a"              # Dragon ash
     optionsTextColor:
-      - "#71b7ff"              # Accent blue
+      - "#8ba4b0"              # Dragon blue
     selectedLineBgColor:
-      - "#272b33"              # Overlay bg
+      - "#282727"              # Dragon bg highlight
     cherryPickedCommitBgColor:
-      - "#272b33"
+      - "#282727"
     cherryPickedCommitFgColor:
-      - "#b780ff"              # Purple (done)
+      - "#a292a3"              # Dragon pink
     unstagedChangesColor:
-      - "#ff6a69"              # Danger red
+      - "#c4746e"              # Dragon red
     defaultFgColor:
-      - "#f0f3f6"              # Primary text
+      - "#c5c9c5"              # Dragon white
     searchingActiveBorderColor:
-      - "#e09b13"              # Warning yellow
+      - "#c4b28a"              # Dragon yellow
 
 git:
   paging:

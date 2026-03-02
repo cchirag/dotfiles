@@ -7,7 +7,7 @@ return {
       ensure_installed = {
         "gopls", "goimports", "gofumpt", "golangci-lint", "delve",
         "typescript-language-server", "eslint-lsp", "prettier",
-        "pyright", "black", "isort", "ruff",
+        "pyright", "black", "isort",
         "rust-analyzer",
         "html-lsp", "css-lsp", "emmet-ls",
       },
@@ -33,9 +33,38 @@ return {
       inlay_hints = { enabled = false },
       diagnostics = { update_in_insert = false, virtual_text = false, severity_sort = true },
       servers = {
+        gopls = {
+          settings = {
+            gopls = {
+              analyses = { unusedparams = true, shadow = true },
+              staticcheck = true,
+              gofumpt = true,
+            },
+          },
+        },
         tsserver = {},
         pyright = {},
-        rust_analyzer = {},
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              -- Reduce memory usage
+              procMacro = { enable = false },           -- Biggest memory saver
+              cargo = {
+                allFeatures = false,                    -- Don't analyze all features
+                loadOutDirsFromCheck = false,           -- Skip build script outputs
+              },
+              -- Faster diagnostics
+              checkOnSave = {
+                command = "check",                      -- Use check instead of clippy
+                extraArgs = { "--target-dir", "/tmp/rust-analyzer-check" },
+              },
+              -- Disable expensive features
+              completion = { callable = { snippets = "none" } },
+              lens = { enable = false },                -- Code lens off
+              inlayHints = { enable = false },
+            },
+          },
+        },
         html = { filetypes = { "html", "templ" } },
         cssls = { filetypes = { "css", "scss", "less" } },
         emmet_ls = { filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact" } },

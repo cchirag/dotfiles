@@ -102,17 +102,9 @@ alias vim="nvim"
 alias lg="lazygit"
 alias zj="zellij"
 
-# eza (modern ls)
-if command -v eza &> /dev/null; then
-    alias ls="eza --icons"
-    alias ll="eza -la --icons --git"
-    alias la="eza -a --icons"
-    alias lt="eza --tree --level=2 --icons"
-else
-    alias ls="ls --color=auto"
-    alias ll="ls -la"
-    alias la="ls -A"
-fi
+alias ls="ls"
+alias ll="ls -la"
+alias la="ls -A"
 
 alias g="git"
 alias gs="git status -sb"
@@ -127,10 +119,6 @@ alias ...="cd ../.."
 
 # Nix
 alias nd="nix develop --command zsh"
-
-# Ollama
-alias ols="ollama serve > /dev/null 2>&1 &; echo 'Ollama server started'"
-alias olq="pkill ollama && echo 'Ollama server stopped' || echo 'Ollama not running'"
 
 # ---------------------
 # FZF (if available)

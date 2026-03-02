@@ -4,16 +4,14 @@
 [tools]
 # Core tools
 opencode = "latest"
-ollama = "latest"
+zellij = "latest"
 neovim = "latest"
 ripgrep = "latest"
 fd = "latest"
 fzf = "latest"
 lazygit = "latest"
-zellij = "latest"
 delta = "latest"
 bat = "latest"
-eza = "latest"
 jq = "latest"
 gh = "latest"
 zoxide = "latest"
