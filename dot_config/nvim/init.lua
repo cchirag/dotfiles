@@ -45,6 +45,21 @@ local function git_branch()
   return git_cache.branch
 end
 
+-- LSP progress
+local lsp_progress = ""
+vim.api.nvim_create_autocmd("LspProgress", {
+  callback = function(ev)
+    local data = ev.data.params.value
+    if data.kind == "end" then
+      lsp_progress = ""
+    else
+      lsp_progress = (data.title or "") .. (data.message and " " .. data.message or "")
+      if #lsp_progress > 30 then lsp_progress = lsp_progress:sub(1, 30) .. "…" end
+    end
+    vim.cmd.redrawstatus()
+  end,
+})
+
 -- Statusline
 local mode_map = {
   n = { "NORMAL", "StatusMode" }, i = { "INSERT", "StatusModeInsert" },
@@ -57,7 +72,18 @@ function Statusline()
   local e = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
   local w = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
   local diag = (e > 0 and "%#StatusError# E:" .. e .. " " or "") .. (w > 0 and "%#StatusWarn# W:" .. w .. " " or "")
-  return "%#" .. m[2] .. "# " .. m[1] .. " %#StatusLine#" .. (b ~= "" and "%#StatusBranch#  " .. b .. " " or "") .. "%#StatusFile# %f %m %S%=" .. diag .. "%#StatusPos# %l:%c "
+  local lsp = ""
+  if lsp_progress ~= "" then
+    lsp = "%#StatusLsp# " .. lsp_progress .. " "
+  else
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
+    if #clients > 0 then
+      local names = {}
+      for _, c in ipairs(clients) do table.insert(names, c.name) end
+      lsp = "%#StatusLsp# " .. table.concat(names, ", ") .. " "
+    end
+  end
+  return "%#" .. m[2] .. "# " .. m[1] .. " %#StatusLine#" .. (b ~= "" and "%#StatusBranch#  " .. b .. " " or "") .. "%#StatusFile# %f %m %S%=" .. lsp .. diag .. "%#StatusPos# %l:%c "
 end
 opt.statusline = "%!v:lua.Statusline()"
 
@@ -73,6 +99,7 @@ au("ColorScheme", { callback = function()
   hl(0, "StatusModeCommand", { fg = bg, bg = get("WarningMsg").fg or get("Type").fg, bold = true })
   hl(0, "StatusBranch", { fg = get("Keyword").fg, bg = bg })
   hl(0, "StatusFile", { fg = get("Normal").fg, bg = bg })
+  hl(0, "StatusLsp", { fg = get("Comment").fg, bg = bg, italic = true })
   hl(0, "StatusError", { fg = get("DiagnosticError").fg, bg = bg, bold = true })
   hl(0, "StatusWarn", { fg = get("DiagnosticWarn").fg, bg = bg })
   hl(0, "StatusPos", { fg = get("Function").fg, bg = bg })
