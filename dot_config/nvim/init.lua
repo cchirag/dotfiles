@@ -162,6 +162,8 @@ require("lazy").setup({
 
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = { indent = { char = "│" }, scope = { enabled = false } } },
+
   { "ibhagwan/fzf-lua", cmd = "FzfLua", keys = { "<leader>f", "<leader>sr" }, config = function()
     local fzf = require("fzf-lua")
     fzf.setup({ winopts = { preview = { default = "bat" } }, keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } })
