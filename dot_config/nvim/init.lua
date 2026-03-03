@@ -179,7 +179,7 @@ require("lazy").setup({
       ts_ls = { cmd = { "typescript-language-server", "--stdio" }, filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }, root_markers = { "package.json", ".git" } },
       pyright = { cmd = { "pyright-langserver", "--stdio" }, filetypes = { "python" }, root_markers = { "pyproject.toml", ".git" } },
       rust_analyzer = { filetypes = { "rust" }, root_markers = { "Cargo.toml", ".git" },
-        settings = { ["rust-analyzer"] = { procMacro = { enable = false }, cargo = { allFeatures = false, loadOutDirsFromCheck = false }, checkOnSave = { command = "check" }, lens = { enable = false }, inlayHints = { enable = false } } } },
+        settings = { ["rust-analyzer"] = { procMacro = { enable = false }, cargo = { allFeatures = false, loadOutDirsFromCheck = false }, checkOnSave = true, check = { command = "check" }, lens = { enable = false }, inlayHints = { enable = false } } } },
       lua_ls = { filetypes = { "lua" }, root_markers = { ".luarc.json", ".git" },
         settings = { Lua = { diagnostics = { globals = { "vim" } }, workspace = { checkThirdParty = false }, telemetry = { enable = false } } } },
     }
