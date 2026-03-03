@@ -30,6 +30,7 @@ opt.tabstop, opt.shiftwidth, opt.expandtab, opt.smartindent = 2, 2, true, true
 opt.wrap, opt.ignorecase, opt.smartcase = false, true, true
 opt.splitbelow, opt.splitright, opt.termguicolors, opt.signcolumn = true, true, true, "yes"
 opt.updatetime, opt.timeoutlen, opt.undofile = 250, 300, true
+opt.foldmethod, opt.foldexpr, opt.foldlevel = "expr", "v:lua.vim.treesitter.foldexpr()", 99
 opt.mouse, opt.guicursor = "", "a:blinkon0"
 opt.scrolloff, opt.sidescrolloff, opt.clipboard, opt.winborder = 8, 8, "unnamedplus", "rounded"
 opt.cmdheight = 0           -- hide command line when not in use
