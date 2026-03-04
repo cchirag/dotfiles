@@ -156,7 +156,7 @@ require("lazy").setup({
   { "rebelot/kanagawa.nvim", lazy = false, priority = 1000, config = function() vim.cmd("colorscheme kanagawa-dragon") end },
 
   { "stevearc/oil.nvim", lazy = false, config = function()
-    require("oil").setup({ default_file_explorer = true, delete_to_trash = true, skip_confirm_for_simple_edits = true, view_options = { show_hidden = true }, use_default_keymaps = true })
+    require("oil").setup({ default_file_explorer = true, delete_to_trash = false, skip_confirm_for_simple_edits = true, view_options = { show_hidden = true }, use_default_keymaps = true })
     map("n", "<leader>e", "<cmd>Oil<cr>")
     map("n", "-", "<cmd>Oil<cr>")
   end },
