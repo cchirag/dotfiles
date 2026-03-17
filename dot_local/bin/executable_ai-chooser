@@ -1,0 +1,19 @@
+#!/bin/bash
+# AI assistant chooser for zellij
+
+clear
+echo ""
+echo "  Select AI assistant:"
+echo ""
+echo "  [c] Claude"
+echo "  [o] OpenCode"
+echo ""
+
+read -n 1 -p "  Choice: " choice
+echo ""
+
+case $choice in
+  c|C|1) exec claude ;;
+  o|O|2) exec opencode ;;
+  *) exec claude ;;  # default to claude
+esac

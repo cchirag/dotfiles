@@ -249,4 +249,44 @@ require("lazy").setup({
     require("nvim-autopairs").setup({})
     require("cmp").event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
   end },
+
+  { "lewis6991/gitsigns.nvim", opts = {
+    on_attach = function(buf)
+      local gs = require("gitsigns")
+      map("n", "]h", gs.next_hunk, { buffer = buf })
+      map("n", "[h", gs.prev_hunk, { buffer = buf })
+      map("n", "<leader>hs", gs.stage_hunk, { buffer = buf })
+      map("n", "<leader>hr", gs.reset_hunk, { buffer = buf })
+      map("n", "<leader>hp", gs.preview_hunk, { buffer = buf })
+      map("n", "<leader>hb", gs.blame_line, { buffer = buf })
+    end,
+  }},
+
+  { "NeogitOrg/neogit", dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+    keys = { { "<leader>gg", function()
+      local neogit = require("neogit")
+      -- Check if Neogit buffer is visible in any window
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype:match("^Neogit") then
+          neogit.close()
+          return
+        end
+      end
+      local sr = vim.o.splitright
+      vim.o.splitright = false
+      neogit.open({ kind = "vsplit" })
+      vim.schedule(function()
+        vim.cmd("wincmd H | vertical resize 30")
+        vim.o.splitright = sr
+      end)
+    end } },
+    opts = { integrations = { diffview = true } },
+  },
+
+  { "sindrets/diffview.nvim", keys = {
+    { "<leader>gd", "<cmd>DiffviewOpen<cr>" },
+    { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>" },
+    { "<leader>gc", "<cmd>DiffviewClose<cr>" },
+  }},
 }, { performance = { rtp = { disabled_plugins = { "gzip", "tarPlugin", "tohtml", "tutor", "zipPlugin", "netrwPlugin" } } } })

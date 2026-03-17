@@ -1,4 +1,4 @@
-// Dev layout: 4 tabs - Terminal | Editor | AI | Git
+// Dev layout: 3 tabs - Terminal | Editor | AI
 layout {
     // Tab 1: Split terminal (left/right)
     tab name="term" {
@@ -21,17 +21,9 @@ layout {
         }
     }
 
-    // Tab 3: OpenCode
+    // Tab 3: AI (choose claude or opencode)
     tab name="ai" {
-        pane command="opencode"
-        pane size=1 borderless=true {
-            plugin location="zellij:compact-bar"
-        }
-    }
-
-    // Tab 4: Lazygit
-    tab name="git" {
-        pane command="lazygit"
+        pane command="ai-chooser"
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
         }
