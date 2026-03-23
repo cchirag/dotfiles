@@ -273,13 +273,7 @@ require("lazy").setup({
           return
         end
       end
-      local sr = vim.o.splitright
-      vim.o.splitright = false
-      neogit.open({ kind = "vsplit" })
-      vim.schedule(function()
-        vim.cmd("wincmd H | vertical resize 30")
-        vim.o.splitright = sr
-      end)
+      neogit.open({ kind = "tab" })
     end } },
     opts = { integrations = { diffview = true } },
   },
@@ -289,4 +283,30 @@ require("lazy").setup({
     { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>" },
     { "<leader>gc", "<cmd>DiffviewClose<cr>" },
   }},
+
+  { "mfussenegger/nvim-dap", dependencies = {
+    "rcarriga/nvim-dap-ui", "nvim-neotest/nvim-nio", "jay-babu/mason-nvim-dap.nvim",
+  }, keys = {
+    { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle breakpoint" },
+    { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Condition: ")) end, desc = "Conditional breakpoint" },
+    { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
+    { "<leader>di", function() require("dap").step_into() end, desc = "Step into" },
+    { "<leader>do", function() require("dap").step_over() end, desc = "Step over" },
+    { "<leader>dO", function() require("dap").step_out() end, desc = "Step out" },
+    { "<leader>dt", function() require("dapui").toggle() end, desc = "Toggle DAP UI" },
+    { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
+    { "<leader>dl", function() require("dap").run_last() end, desc = "Run last" },
+    { "<leader>dx", function() require("dap").terminate() end, desc = "Terminate" },
+  }, config = function()
+    local dap, dapui = require("dap"), require("dapui")
+    require("mason-nvim-dap").setup({ ensure_installed = { "delve", "js", "python" }, automatic_installation = true })
+    dapui.setup()
+    dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+    dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+    dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+    -- Signs
+    vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticError" })
+    vim.fn.sign_define("DapBreakpointCondition", { text = "◐", texthl = "DiagnosticWarn" })
+    vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticInfo", linehl = "CursorLine" })
+  end },
 }, { performance = { rtp = { disabled_plugins = { "gzip", "tarPlugin", "tohtml", "tutor", "zipPlugin", "netrwPlugin" } } } })
