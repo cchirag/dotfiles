@@ -1,0 +1,50 @@
+// Zed keymap — translated from ~/.config/nvim/init.lua
+//
+// Leader is <space>, matching nvim. All bindings are scoped to
+// vim normal mode so they don't clash with insert-mode typing.
+[
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      // Saves / closing
+      "space w": "workspace::Save",
+      "space q": "pane::CloseActiveItem",
+      "space b d": "pane::CloseActiveItem",
+
+      // File tree (nvim: <leader>e -> Oil)
+      "space e e": "workspace::ToggleLeftDock",
+
+// Fuzzy finders (nvim: fzf-lua)
+      "space f f": "file_finder::Toggle",
+      "space f g": "workspace::NewSearch",
+      "space f b": "tab_switcher::Toggle",
+      "space f s": "outline::Toggle",
+
+      // LSP / code actions
+      "space c a": "editor::ToggleCodeActions",
+      "space c r": "editor::Rename",
+      "space c f": "editor::Format",
+
+      // Buffer / tab nav (nvim: <S-h>/<S-l>)
+      "shift-h": "pane::ActivatePreviousItem",
+      "shift-l": "pane::ActivateNextItem",
+
+      // Pane navigation (nvim: <C-h/j/k/l>)
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+
+      // Git hunks (nvim: gitsigns ]h/[h)
+      "] h": "editor::GoToHunk",
+      "[ h": "editor::GoToPreviousHunk",
+
+      // Panels (idiomatic leader bindings, status-bar shortcuts)
+      "space x x": "diagnostics::Deploy",
+      "space g g": "workspace::ToggleRightDock",
+      "space a a": "workspace::ToggleBottomDock",
+      "space a c": ["agent::NewExternalAgentThread", { "agent": { "custom": { "name": "claude-acp" } } }],
+      "space j": "go_to_line::Toggle"
+    }
+  }
+]

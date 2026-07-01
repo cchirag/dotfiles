@@ -1,0 +1,88 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "vim_mode": true,
+  "project_panel": {
+    "dock": "left",
+  },
+  // Agent panel allowed (cmd-? / space a a); no inline autosuggestions.
+  "edit_predictions": {
+    "provider": "none",
+  },
+  "agent": {
+    "dock": "bottom",
+  },
+  // Claude Code (ACP). Pinning absolute path since macOS GUI apps
+  // don't reliably inherit ~/.local/bin in PATH.
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry",
+      "env": {
+        "CLAUDE_CODE_EXECUTABLE": "/Users/chiragchan/.local/bin/claude",
+      },
+    },
+  },
+
+  // Minimal UI chrome
+  "tab_bar": { "show": true },
+  // Zed has no setting to hide the title bar strip itself, but we can blank its contents.
+  "title_bar": {
+    "show_branch_name": false,
+    "show_branch_status_icon": false,
+    "show_project_items": false,
+    "show_onboarding_banner": false,
+    "show_user_picture": false,
+    "show_user_menu": false,
+    "show_sign_in": false,
+  },
+  "scrollbar": { "show": "never" },
+  // "minimap": { "show": "never" },
+  "indent_guides": { "enabled": false },
+  "inlay_hints": { "enabled": false },
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": false,
+  },
+  "status_bar": {
+    "active_language_button": false,
+    "cursor_position_button": true,
+    "line_endings_button": false,
+  },
+  // Terminal effectively disabled — used externally (Ghostty + Zellij).
+  // Zed has no true "disable" toggle; we hide the status-bar button.
+  "terminal": {
+    "button": false,
+  },
+
+  // From nvim opt.* — see ~/.config/nvim/init.lua
+  "relative_line_numbers": "enabled",
+  "tab_size": 2,
+  "hard_tabs": false,
+  "soft_wrap": "none",
+  "vertical_scroll_margin": 8,
+  "cursor_blink": false,
+  "format_on_save": "on",
+  "vim": {
+    "use_system_clipboard": "always",
+    "use_smartcase_find": true,
+  },
+
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)",
+  },
+  "ui_font_size": 13,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Kanagawa Dragon",
+  },
+}
