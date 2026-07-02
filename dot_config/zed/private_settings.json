@@ -17,6 +17,7 @@
   },
   "agent": {
     "dock": "bottom",
+    "button": false,
   },
   // Claude Code (ACP). Pinning absolute path since macOS GUI apps
   // don't reliably inherit ~/.local/bin in PATH.
@@ -34,11 +35,11 @@
 
   // Minimal UI chrome
   "tab_bar": { "show": true },
-  // Zed has no setting to hide the title bar strip itself, but we can blank its contents.
+  // Title bar: show branch (name + git status) and project name; hide account/menu chrome.
   "title_bar": {
-    "show_branch_name": false,
-    "show_branch_status_icon": false,
-    "show_project_items": false,
+    "show_branch_name": true,
+    "show_branch_status_icon": true,
+    "show_project_items": true,
     "show_onboarding_banner": false,
     "show_user_picture": false,
     "show_user_menu": false,
@@ -53,13 +54,22 @@
     "quick_actions": false,
   },
   "status_bar": {
-    "active_language_button": false,
+    "active_language_button": true,
     "cursor_position_button": true,
-    "line_endings_button": false,
+    "line_endings_button": true,
   },
-  // Terminal effectively disabled — used externally (Ghostty + Zellij).
-  // Zed has no true "disable" toggle; we hide the status-bar button.
+  // Status-bar panel buttons: keep sidebar (project_panel), git, terminal;
+  // hide the rest (driven by keybindings instead).
   "terminal": {
+    "button": true,
+  },
+  "outline_panel": {
+    "button": false,
+  },
+  "search": {
+    "button": false,
+  },
+  "collaboration_panel": {
     "button": false,
   },
 
@@ -115,6 +125,6 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Kanagawa Dragon",
+    "dark": "GitHub Dark",
   },
 }

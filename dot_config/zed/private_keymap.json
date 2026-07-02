@@ -60,6 +60,7 @@
       // Panels (idiomatic leader bindings, status-bar shortcuts)
       "space x x": "diagnostics::Deploy",
       "space g g": "workspace::ToggleRightDock",
+      "space g d": "editor::ToggleSplitDiff",
       "space a a": "workspace::ToggleBottomDock",
       "space a c": ["agent::NewExternalAgentThread", { "agent": { "custom": { "name": "claude-acp" } } }],
       "space j": "go_to_line::Toggle"
