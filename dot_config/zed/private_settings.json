@@ -29,6 +29,9 @@
     },
   },
 
+  // Cmd+W on a window with no tabs should NOT close the window/app.
+  "when_closing_with_no_tabs": "keep_window_open",
+
   // Minimal UI chrome
   "tab_bar": { "show": true },
   // Zed has no setting to hide the title bar strip itself, but we can blank its contents.
@@ -73,13 +76,42 @@
     "use_smartcase_find": true,
   },
 
+  // Per-server settings — mirrors ~/.config/nvim/init.lua.
+  // JS/TS (vtsls), Rust, Go, Python, Lua servers are otherwise fine on defaults.
+  "lsp": {
+    "rust-analyzer": {
+      "initialization_options": {
+        "procMacro": { "enable": false },
+        "cargo": { "allFeatures": false },
+        "checkOnSave": true,
+        "check": { "command": "check" },
+        "lens": { "enable": false },
+        "inlayHints": { "enable": false },
+      },
+    },
+    "lua-language-server": {
+      "settings": {
+        "Lua": {
+          "diagnostics": { "globals": ["vim"] },
+          "workspace": { "checkThirdParty": false },
+          "telemetry": { "enable": false },
+        },
+      },
+    },
+  },
+
+  // Rust/TS/JS/Go/Python/TOML ship built-in; only Lua needs an extension.
+  "auto_install_extensions": {
+    "lua": true,
+  },
+
   "icon_theme": {
     "mode": "dark",
     "light": "Zed (Default)",
     "dark": "Zed (Default)",
   },
   "ui_font_size": 13,
-  "buffer_font_size": 15,
+  "buffer_font_size": 12,
   "theme": {
     "mode": "dark",
     "light": "One Light",

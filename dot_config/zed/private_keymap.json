@@ -17,13 +17,31 @@
 // Fuzzy finders (nvim: fzf-lua)
       "space f f": "file_finder::Toggle",
       "space f g": "workspace::NewSearch",
-      "space f b": "tab_switcher::Toggle",
+      "space f b": ["tab_switcher::Toggle", { "select_last": false }],
+      "space f t": ["tab_switcher::ToggleAll", { "select_last": false }],
       "space f s": "outline::Toggle",
 
-      // LSP / code actions
+      // LSP / code intelligence (mirrors nvim LspAttach maps)
+      "g d": "editor::GoToDefinition",
+      "g shift-d": "editor::GoToDeclaration",
+      "g y": "editor::GoToTypeDefinition",
+      "g i": "editor::GoToImplementation",
+      "g r": "editor::FindAllReferences",
+      "shift-k": "editor::Hover",
       "space c a": "editor::ToggleCodeActions",
       "space c r": "editor::Rename",
+      "space c s": "editor::ShowSignatureHelp",
       "space c f": "editor::Format",
+
+      // Diagnostics
+      "] d": "editor::GoToDiagnostic",
+      "[ d": "editor::GoToPreviousDiagnostic",
+
+      // Zoom / zen — focus a single pane. space z maximizes the active pane
+      // (shift-escape also toggles it, incl. from panels); space Z centers
+      // the buffer for distraction-free reading.
+      "space z": "workspace::ToggleZoom",
+      "space shift-z": "workspace::ToggleCenteredLayout",
 
       // Buffer / tab nav (nvim: <S-h>/<S-l>)
       "shift-h": "pane::ActivatePreviousItem",
@@ -45,6 +63,44 @@
       "space a a": "workspace::ToggleBottomDock",
       "space a c": ["agent::NewExternalAgentThread", { "agent": { "custom": { "name": "claude-acp" } } }],
       "space j": "go_to_line::Toggle"
+    }
+  },
+  {
+    // Global bindings — work from anywhere (editor, panels, terminal).
+    //
+    // cmd-1..4: focus movers — move the active pane WITHOUT closing anything.
+    //   (open+focus if closed, just focus if already open).
+    // cmd-e/g/t: show/hide toggles for each dock.
+    "bindings": {
+      "cmd-1": "project_panel::ToggleFocus",
+      "cmd-2": "workspace::ActivateLastPane",
+      "cmd-3": "git_panel::ToggleFocus",
+      "cmd-4": "terminal_panel::ToggleFocus",
+
+      "cmd-e": "workspace::ToggleLeftDock",
+      "cmd-g": "workspace::ToggleRightDock",
+      "cmd-t": "workspace::ToggleBottomDock",
+
+      // Zoom the active pane/panel — works from anywhere, not just the editor.
+      // Single key (not a chord) and free in Terminal + agent contexts, so it
+      // doesn't collide with terminal's cmd-k (Clear) or the ACP panel's keys.
+      "cmd-\\": "workspace::ToggleZoom"
+    }
+  },
+  {
+    // Ensure zoom works even when the terminal has focus (PTY can grab keys).
+    "context": "Terminal",
+    "bindings": {
+      "cmd-\\": "workspace::ToggleZoom"
+    }
+  },
+  {
+    // Manual autocomplete trigger — LSP intellisense, NOT AI (edit_predictions
+    // is off). Completions also pop up automatically as you type; this forces
+    // the menu. Editor context so it works in insert mode too.
+    "context": "Editor",
+    "bindings": {
+      "ctrl-space": "editor::ShowCompletions"
     }
   }
 ]
