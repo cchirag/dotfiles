@@ -16,7 +16,7 @@
 
 // Fuzzy finders (nvim: fzf-lua)
       "space f f": "file_finder::Toggle",
-      "space f g": "workspace::NewSearch",
+      "space f g": "pane::DeploySearch",
       "space f b": ["tab_switcher::Toggle", { "select_last": false }],
       "space f t": ["tab_switcher::ToggleAll", { "select_last": false }],
       "space f s": "outline::Toggle",
